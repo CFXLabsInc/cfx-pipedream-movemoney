@@ -1,0 +1,30 @@
+schema: workflow/2022.04
+name: CKO Webhooks to Slack
+settings:
+  error_notification: true
+triggers:
+- id: hi_ERH9ppm
+steps:
+- namespace: build_message
+  runtime: nodejs18.x
+  uses: "./build_message/entry.js"
+- namespace: end_based_on_condition
+  runtime: nodejs18.x
+  uses: filter-end-based-on-condition@0.0.1
+  _props_cursor: dyp_vWUxDy5
+  props:
+    initialValue: "{{steps.build_message.$return_value}}"
+    condition: IS_NULL
+- namespace: send_message_public_channel
+  runtime: nodejs18.x
+  uses: slack-send-message-public-channel@0.2.17
+  props:
+    slack:
+      authProvisionId: apn_mnh1rAj
+    conversation:
+      __lv:
+        label: feed_movemoney
+        value: C0612FY89DE
+    text: "{{steps.build_message.$return_value.message}}"
+    include_sent_via_pipedream_flag: false
+

@@ -7,7 +7,7 @@ export default defineComponent({
     const { card_category, card_type } = data.source;
 
     if (amount > 0) {
-      return { message: `${messageType} for $${amount} [${response_summary.toLowerCase()}] [${card_category.toLowerCase()} ${card_type.toLowerCase()}]`}
+      return { message: `${messageType} for $${(amount / 100).toFixed(2)} [${response_summary.toLowerCase()}] [${card_category.toLowerCase()} ${card_type.toLowerCase()}]`}
     } else {
       return { message: `${messageType} [${response_summary.toLowerCase()}] [${card_category.toLowerCase()} ${card_type.toLowerCase()}]`}
     }

@@ -1,0 +1,43 @@
+schema: workflow/2022.04
+name: Helius Transfer Webhook to Prometheus
+settings:
+  error_notification: true
+triggers:
+- id: hi_2VH3Jlb
+steps:
+- namespace: convert_into_balances
+  runtime: nodejs18.x
+  uses: "./convert_into_balances/entry.js"
+- namespace: convert_to_graphite_metrics
+  runtime: nodejs18.x
+  uses: "./convert_to_graphite_metrics/entry.js"
+- namespace: custom_request
+  runtime: nodejs18.x
+  uses: http-custom-request@1.1.1
+  props:
+    httpRequest:
+      auth:
+        type: bearer
+        username: '594144'
+        password: eyJrIjoiMDZlMDMyMTVjMWVkOWE1ZTExMGUzZGE4MWIwYjIyN2I2OWNhOWU0YiIsIm4iOiJQaXBlZHJlYW0gdG8gR3JhcGhpdGUiLCJpZCI6NzE5Mzk1fQ==
+        token: 594144:eyJrIjoiMDZlMDMyMTVjMWVkOWE1ZTExMGUzZGE4MWIwYjIyN2I2OWNhOWU0YiIsIm4iOiJQaXBlZHJlYW0gdG8gR3JhcGhpdGUiLCJpZCI6NzE5Mzk1fQ==
+      body:
+        contentType: application/json
+        fields:
+        - name: 
+          value: "{{steps.convert_to_graphite_metrics.$return_value}}"
+        mode: raw
+        type: raw
+        raw: "{{steps.convert_to_graphite_metrics.$return_value}}"
+      headers:
+      - name: ''
+        value: ''
+        disabled: true
+      method: POST
+      params:
+      - name: ''
+        value: ''
+        disabled: true
+      url: https://graphite-prod-10-prod-us-central-0.grafana.net/graphite/metrics
+      tab: Auth
+

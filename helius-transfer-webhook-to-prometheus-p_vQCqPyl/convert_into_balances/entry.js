@@ -64,6 +64,6 @@ const metricNames = [...new Set([...Object.keys(combinedPostBalances), ...Object
 
 const diff = Object.fromEntries(metricNames.map((metric)=>([metric, (combinedPostBalances[metric]?.balance ?? 0)-(combinedPreBalances[metric]?.balance ?? 0)])))
 
-    return Object.fromEntries(Object.entries(diff).map(([addr, val]) => ([addr, {diff: val, post: combinedPostBalances[addr]??{account: combinedPreBalances[addr].account, balance:0}, pre: combinedPreBalances[addr]??{account: combinedPostBalances[addr].account, balance:0}}])));
+    return Object.fromEntries(Object.entries(diff).map(([addr, val]) => ([addr, {diff: val, post: combinedPostBalances[addr]??{mint: combinedPreBalances[addr].mint, balance:0}, pre: combinedPreBalances[addr]??{mint: combinedPostBalances[addr].mint, balance:0}}])));
   },
 })

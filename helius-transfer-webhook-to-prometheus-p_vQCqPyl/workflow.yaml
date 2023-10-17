@@ -1,0 +1,14 @@
+schema: workflow/2022.04
+name: Helius Transfer Webhook to Prometheus
+settings:
+  error_notification: true
+triggers:
+- id: hi_2VH3Jlb
+steps:
+- namespace: convert_into_balances
+  runtime: nodejs18.x
+  uses: "./convert_into_balances/entry.js"
+- namespace: convert_to_graphite_metrics
+  runtime: nodejs18.x
+  uses: "./convert_to_graphite_metrics/entry.js"
+

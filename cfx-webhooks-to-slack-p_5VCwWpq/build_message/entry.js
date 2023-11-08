@@ -2,6 +2,7 @@ export default defineComponent({
   async run({ steps, $ }) {
     try {
       const identityLink = (identityId) => `<https://interval.com/dashboard/cfxlabsinc/actions/identity_management/display?externalId=${identityId}|${identityId}>`;
+      const phoneLink = (phone) => `<https://interval.com/dashboard/cfxlabsinc/actions/movemoney/search?id=%2B${phone.replace(/^\+/, '')}|${phone}>`;
       const body = steps.trigger.event.body;
 
       const [ domain, entity, eventType ] = body.event.split(".");
@@ -75,13 +76,13 @@ export default defineComponent({
       if (domain === "send") {
         if (entity === "send") {       
           if (eventType === "statusUpdated") {        
-            const { data: amount, from: fromPhone, to: toPhone, status } = body;
+            const { amount, from: fromPhone, to: toPhone, status } = body.data;
 
-              const emoji = status === "CLAIMED" ? "handshake" : status === "CREATED" ? "arrow_right" : "warning";
-
-              const message = `:${emoji}: ${amount} transfer from ${fromPhone} to ${toPhone} is ${status.toLowerCase()}`
-
-              return { message }
+            const emoji = status === "claimed" ? "handshake" : status === "created" ? "arrow_right" : "warning";
+            
+            const message = `:${emoji}: A $${amount} USD transfer from ${phoneLink(fromPhone)} to ${phoneLink(toPhone)} has been ${status.toLowerCase()}`
+            
+            return { message };
           }
         }
       }

@@ -26,5 +26,6 @@ steps:
         label: feed_movemoney
         value: C0612FY89DE
     text: "{{steps.build_message.$return_value.message}}"
+    icon_url: https://movemoney.app/favicon.ico
     include_sent_via_pipedream_flag: false
 

@@ -4,9 +4,9 @@ export default defineComponent({
     try {
     const { type, data } = steps.trigger.event.body;
     const messageType = type.split("_").join(" ");
-    const { amount, response_summary } = data;
+    const { amount, response_summary, metadata, customer } = data;
     const { card_category, card_type } = data.source;
-    const identity = data.metadata?.identity;
+    const identity = metadata?.identity ?? customer?.email?.split("@")?.[0];
     const identityString = identity ? ` by ${identityLink(identity)} ` : ""
 
     if (amount > 0) {

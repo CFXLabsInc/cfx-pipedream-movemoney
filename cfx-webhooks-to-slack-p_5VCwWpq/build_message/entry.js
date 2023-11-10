@@ -62,7 +62,7 @@ export default defineComponent({
       if (domain === "reward") {
         if (entity === "reward") {       
           if (eventType === "statusUpdated") {        
-            const { data: amount, type, userId } = body;
+            const { amount, type, userId } = body.data;
 
             if (status === "CLAIMED") {
               const message = `:gift: ${amount} ${type} reward claimed by ${userId}`

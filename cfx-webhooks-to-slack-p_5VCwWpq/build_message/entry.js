@@ -65,7 +65,7 @@ export default defineComponent({
             const { amount, type, userId, status } = body.data;
 
             if (status === "CLAIMED") {
-              const message = `:gift: ${amount} ${type} reward claimed by ${userId}`;
+              const message = `:gift: $${amount} ${type} reward claimed by ${userId}`;
 
               return { message }
             }

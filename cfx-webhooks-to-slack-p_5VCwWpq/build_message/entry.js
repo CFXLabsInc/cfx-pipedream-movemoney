@@ -47,11 +47,11 @@ export default defineComponent({
       if (domain === "user") {
         if (entity === "register") {    
           if (eventType === "statusUpdated") {      
-            const { data: id, identityId, phone, country, status } = body;
+            const { identityId, phone, country, status } = body.data;
 
             if (status === "REGISTERED") {
               const emoji = `flag-${country.toLowerCase()}`;
-              const message = `:${emoji}: ${identityLink(identityId)} registered with ${phone}`
+              const message = `:${emoji}: ${identityLink(identityId)} registered with ${phone}`;
 
               return { message }
             }
@@ -61,11 +61,11 @@ export default defineComponent({
 
       if (domain === "reward") {
         if (entity === "reward") {       
-          if (eventType === "statusUpdated") {        
-            const { amount, type, userId } = body.data;
+          if (eventType === "statusUpdated") {     
+            const { amount, type, userId, status } = body.data;
 
             if (status === "CLAIMED") {
-              const message = `:gift: ${amount} ${type} reward claimed by ${userId}`
+              const message = `:gift: ${amount} ${type} reward claimed by ${userId}`;
 
               return { message }
             }

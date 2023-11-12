@@ -3,6 +3,7 @@ export default defineComponent({
     try {
       const identityLink = (identityId) => `<https://interval.com/dashboard/cfxlabsinc/actions/identity_management/display?externalId=${identityId}|${identityId}>`;
       const phoneLink = (phone) => `<https://interval.com/dashboard/cfxlabsinc/actions/movemoney/search?id=%2B${phone.replace(/^\+/, '')}|${phone}>`;
+      const userIdLink = (userId) => `<https://interval.com/dashboard/cfxlabsinc/actions/identity_management/display?userId=${userId}|${userId}>`;
       const body = steps.trigger.event.body;
 
       const [ domain, entity, eventType ] = body.event.split(".");
@@ -63,9 +64,10 @@ export default defineComponent({
         if (entity === "reward") {       
           if (eventType === "statusUpdated") {     
             const { amount, type, userId, status } = body.data;
+            const emoji = type === "referral" ? "gift_heart" : "gift";
 
             if (status === "CLAIMED") {
-              const message = `:gift: $${amount} ${type} reward claimed by ${userId}`;
+              const message = `:${emoji}: $${amount} ${type} reward claimed by ${userIdLink(userId)}`;
 
               return { message }
             }

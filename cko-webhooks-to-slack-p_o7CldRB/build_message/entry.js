@@ -27,7 +27,7 @@ export default defineComponent({
 
     try {
       const { type, data } = steps.trigger.event.body;
-      const messageType = type.split("_").join(" ");
+      const messageType = `<${steps.trigger.event.body._links.payment.href}|${type.split("_").join(" ")}>`;
       const { amount, response_summary, metadata, customer } = data;
       const { card_category, card_type } = data.source ?? {
         card_category: "unknown",
@@ -35,16 +35,17 @@ export default defineComponent({
       };
       const identity = metadata?.identity ?? customer?.email?.split("@")?.[0];
       const user = (await getUserLink(identity)) ?? identity;
+      const cardUser = steps.trigger.event.body.data.source.name
 
       if (amount > 0) {
         return {
           message: `${messageType} by ${user} for $${(amount / 100).toFixed(
             2
-          )} [${response_summary.toLowerCase()}] [${card_category.toLowerCase()} ${card_type.toLowerCase()}]`,
+          )} [cardholder name: ${cardUser}] [${response_summary.toLowerCase()}] [${card_category.toLowerCase()} ${card_type.toLowerCase()}]`,
         };
       } else {
         return {
-          message: `${messageType} by ${user} [${response_summary.toLowerCase()}] [${card_category.toLowerCase()} ${card_type.toLowerCase()}]`,
+          message: `${messageType} by ${user} [cardholder name: ${cardUser}] [${response_summary.toLowerCase()}] [${card_category.toLowerCase()} ${card_type.toLowerCase()}]`,
         };
       }
     } catch (e) {

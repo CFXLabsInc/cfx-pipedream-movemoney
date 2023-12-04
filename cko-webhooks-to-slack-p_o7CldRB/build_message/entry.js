@@ -27,7 +27,7 @@ export default defineComponent({
 
     try {
       const { type, data } = steps.trigger.event.body;
-      const messageType = `<${steps.trigger.event.body._links.payment.href}|${type.split("_").join(" ")}>`;
+      const messageType = `<https://dashboard.checkout.com/payments/all-payments/payment/${steps.trigger.event.body.id}|${type.split("_").join(" ")}>`;
       const { amount, response_summary, metadata, customer } = data;
       const { card_category, card_type } = data.source ?? {
         card_category: "unknown",

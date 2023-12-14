@@ -90,12 +90,16 @@ export default defineComponent({
       if (domain === "user") {
         if (entity === "register") {
           if (eventType === "statusUpdated") {
-            const { identityId, phone, country, status } = body.data;
+            const { identityId, phone, country, status, } = body.data;
             const user = await getUserLink(identityId) ?? identityId;
+            const source = 
+            (marketing.gclid || marketing.gbraid || marketing.wbraid)? "Google Ads" :
+            (marketing.fbclid) ? "Facebook Ads":
+             marketing?.utm_source ?? "unknown";
 
             if (status === "REGISTERED") {
               const emoji = `flag-${country.toLowerCase()}`;
-              const message = `:${emoji}: ${user} registered with ${phone}`;
+              const message = `:${emoji}: ${user} registered with ${phone} [source: ${source}]`;
 
               return { message };
             }

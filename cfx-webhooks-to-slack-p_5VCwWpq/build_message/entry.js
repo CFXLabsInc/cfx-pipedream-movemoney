@@ -92,9 +92,10 @@ export default defineComponent({
           if (eventType === "statusUpdated") {
             const { identityId, phone, country, status, } = body.data;
             const user = await getUserLink(identityId) ?? identityId;
+            const { marketing } = body.data.source;
             const source = 
-            (marketing.gclid || marketing.gbraid || marketing.wbraid)? "Google Ads" :
-            (marketing.fbclid) ? "Facebook Ads":
+            (marketing?.gclid || marketing?.gbraid || marketing?.wbraid)? "Google Ads" :
+            (marketing?.fbclid) ? "Facebook Ads":
              marketing?.utm_source ?? "unknown";
 
             if (status === "REGISTERED") {
